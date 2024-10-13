@@ -34,9 +34,25 @@ mise:
   - python
   - poetry
   - node
+  - lua
 
 repos:
   - target: "~/.config/nvim"
     src: "https://github.com/logandonley/nvim.git"
   - target: "~/.config/qtile"
     src: "https://github.com/logandonley/qtile-config.git"
+
+
+fonts:
+  google:
+    - Roboto
+    - IBM Plex Sans
+
+  nerd:
+    - Iosevka
+    - Hack
+    - BlexMono
+    - JetBrainsMono
+    - ProggyClean
+    - FiraMono
+    - BigBlueTerm

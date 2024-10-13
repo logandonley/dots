@@ -1,4 +1,5 @@
 import difflib
+import filecmp
 import os
 from datetime import datetime
 from shutil import copy2
@@ -33,6 +34,17 @@ def show_diff(file1: str, file2: str):
             print(line, end="")
 
 
+def identical(file1: str, file2: str) -> bool:
+    """
+    Compare two files and return a boolean for whether they are identical.
+
+    :param file1:
+    :param file2:
+    :return:
+    """
+    return filecmp.cmp(file1, file2, shallow=False)
+
+
 def copy_dotfiles(repo_home: str, user_home: str):
     """
     Go through all files in the dot files root and copy into the user's home directory
@@ -50,6 +62,10 @@ def copy_dotfiles(repo_home: str, user_home: str):
             )
 
             if os.path.exists(real_file):
+                if identical(repo_file, real_file):
+                    print(f"Files {repo_file} and {real_file} are identical. Skipping.")
+                    continue
+
                 repo_time = get_last_modified(repo_file)
                 real_time = get_last_modified(real_file)
 
