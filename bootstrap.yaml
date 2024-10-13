@@ -28,6 +28,7 @@ packages:
   - podman
   - tldr
   - figlet
+  - gammastep
 
 mise:
   - go

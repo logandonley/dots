@@ -160,6 +160,7 @@ riverctl spawn "kanshi"
 riverctl spawn "mako"
 riverctl spawn "foot --server"
 riverctl spawn "swaybg -m center -i ~/Pictures/wallpaper.jpg -c 000000"
+riverctl spawn "gammastep"
 
 # Make all views with an app-id that starts with "float" and title "foo" start floating.
 riverctl rule-add -app-id 'float*' -title 'foo' float
