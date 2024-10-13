@@ -26,6 +26,8 @@ packages:
   - gh
   - helm
   - podman
+  - tldr
+  - figlet
 
 mise:
   - go

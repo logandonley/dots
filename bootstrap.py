@@ -1,8 +1,13 @@
+import difflib
 import os.path
+from shutil import which
 import subprocess
-from typing import List
 
 from yaml import safe_load
+
+from dots import copy_dotfiles
+from git import setup_git
+from packages import install_packages, system_update, install_groups
 
 
 def load_bootstrap_file(file: str):
@@ -15,98 +20,6 @@ def load_bootstrap_file(file: str):
     with open(file, "r") as f:
         bootstrap_data = safe_load(f)
     return bootstrap_data
-
-
-def setup_git(config):
-    assert config["name"], "Missing git.name definition"
-    assert config["email"], "Missing git.email definition"
-    assert config["defaultBranch"], "Missing git.defaultBranch definition"
-    assert config["autoRemote"], "Missing git.autoRemote definition"
-
-    commands = [
-        ["git", "config", "--global", "user.name", config["name"]],
-        ["git", "config", "--global", "user.email", config["email"]],
-        ["git", "config", "--global", "init.defaultBranch", config["defaultBranch"]],
-        ["git", "config", "--global", "push.autoSetupRemote", config["autoRemote"]],
-    ]
-
-    for cmd in commands:
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-        )
-
-        if result.returncode != 0:
-            print(result.stderr)
-            raise Exception(
-                f"Received return code {result.returncode} when running git operation"
-            )
-
-
-def system_update():
-    """
-    Run dnf update to make sure everything is upgraded.
-
-    :return:
-    """
-
-    result = subprocess.run(
-        ["sudo", "dnf", "update", "-y"],
-        capture_output=True,
-        text=True,
-    )
-    print(result.stdout)
-
-    if result.returncode != 0:
-        print(result.stderr)
-        raise Exception(
-            f"Received return code {result.returncode} when performing system update"
-        )
-
-
-def install_groups(groups: List[str]):
-    """
-    Perform a `dnf group install` against the target group(s)
-
-    :param groups: The dnf groups to install
-    :return:
-    """
-
-    result = subprocess.run(
-        ["sudo", "dnf", "group", "install", "-y"] + groups,
-        capture_output=True,
-        text=True,
-    )
-    print(result.stdout)
-
-    if result.returncode != 0:
-        print(result.stderr)
-        raise Exception(
-            f"Received return code {result.returncode} when installing {groups}"
-        )
-
-
-def install_packages(packages: List[str]):
-    """
-    Perform a `dnf install` against the target package(s)
-
-    :param packages: The dnf packages to install
-    :return:
-    """
-
-    result = subprocess.run(
-        ["sudo", "dnf", "install", "-y"] + packages,
-        capture_output=True,
-        text=True,
-    )
-    print(result.stdout)
-
-    if result.returncode != 0:
-        print(result.stderr)
-        raise Exception(
-            f"Received return code {result.returncode} when installing {packages}"
-        )
 
 
 def download_repo(target: str, src: str):
@@ -138,6 +51,94 @@ def download_repo(target: str, src: str):
         )
 
 
+def get_user() -> str:
+    """
+    Get the current logged-in user.
+
+    :return: The current logged-in user
+    """
+    return os.getenv("USER")
+
+
+def get_login_shell(user: str) -> str:
+    """
+    Grab the login shell for the targeted user
+
+    :param user: Target linux user
+    :return: The login shell
+    """
+    result = subprocess.run(
+        ["grep", user, "/etc/passwd"],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        print(result.stderr)
+        raise Exception(
+            f"Received return code {result.returncode} when attempting to get login shell"
+        )
+
+    line = result.stdout.strip()
+    return line.split(":")[-1]
+
+
+def change_login_shell(user: str, shell: str):
+    """
+    Change the login shell for the target user.
+
+    :param user: Linux user
+    :param shell: Path to the target shell (e.g. /usr/bin/zsh)
+    :return:
+    """
+    result = subprocess.run(
+        ["sudo", "chsh", "--shell", shell, user],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        print(result.stderr)
+        raise Exception(
+            f"Received return code {result.returncode} when attempting to set login shell '{shell}' for user '{user}'"
+        )
+
+
+def ensure_omz():
+    """
+    Make sure that Oh My Zsh is setup and zsh is installed.
+
+    :return:
+    """
+    # First make sure Zsh is installed
+    zsh_installed = which("zsh")
+    if not zsh_installed:
+        install_packages(["zsh"])
+
+    user = get_user()
+    login_shell = get_login_shell(user)
+
+    if login_shell != which("zsh"):
+        change_login_shell(user, which("zsh"))
+
+    exists = os.path.exists(os.path.expanduser("~/.oh-my-zsh"))
+    if exists:
+        return
+
+    result = subprocess.run(
+        [
+            "/bin/bash",
+            "-c",
+            "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh -s -- --unattended --keep-zshrc",
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        print(result.stderr)
+        raise Exception(
+            f"Received return code {result.returncode} when attempting to install omz"
+        )
+
+
 def bootstrap():
     data = load_bootstrap_file("bootstrap.yaml")
 
@@ -158,6 +159,13 @@ def bootstrap():
     repos = data["repos"]
     for repo in repos:
         download_repo(repo["target"], repo["src"])
+
+    ensure_omz()
+
+    # Recursively go through all contents in the ./home directory and copy into ~
+    repo_home = "./home"
+    real_home = os.path.expanduser("~")
+    copy_dotfiles(repo_home, real_home)
 
 
 if __name__ == "__main__":
