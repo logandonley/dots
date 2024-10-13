@@ -1,0 +1,40 @@
+groups:
+  - "Xfce Desktop"
+  - "MATE Desktop"
+  - "C Development Tools and Libraries"
+
+git:
+  name: Logan Donley
+  email: gh@logandonley.com
+  defaultBranch: main
+  autoRemote: "true"
+
+packages:
+  - git
+  - neovim
+  - river
+  - sddm
+  - wofi
+  - wlr-randr
+  - wdisplays
+  - zsh
+  - mako
+  - obs-studio
+  - redshift
+  - ffmpeg-free
+  - luarocks
+  - gh
+  - helm
+  - podman
+
+mise:
+  - go
+  - python
+  - poetry
+  - node
+
+repos:
+  - target: "~/.config/nvim"
+    src: "https://github.com/logandonley/nvim.git"
+  - target: "~/.config/qtile"
+    src: "https://github.com/logandonley/qtile-config.git"
