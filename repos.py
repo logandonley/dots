@@ -1,5 +1,6 @@
 import os
-import subprocess
+
+from utils import cmd
 
 
 def download_repo(target: str, src: str):
@@ -17,15 +18,4 @@ def download_repo(target: str, src: str):
         print(f"{target_dir} already exists. Continuing.")
         return
 
-    result = subprocess.run(
-        ["git", "clone", src, target_dir],
-        capture_output=True,
-        text=True,
-    )
-    print(result.stdout)
-
-    if result.returncode != 0:
-        print(result.stderr)
-        raise Exception(
-            f"Received return code {result.returncode} when installing fetching '{src}' git repo"
-        )
+    cmd(["git", "clone", src, target_dir], error_msg=f"Error fetching '{src}' git repo")

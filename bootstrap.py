@@ -1,7 +1,16 @@
-import difflib
+#!/usr/bin/env python3
+"""
+Bootstraps the full system.
+
+Includes packages, languages, dotfiles, fonts, and more.
+
+> ./bootstrap.py
+
+This is the main entrypoint into this project.
+The operations are designed to be idempotent (as much as possible).
+"""
+
 import os.path
-from shutil import which
-import subprocess
 
 from yaml import safe_load
 

@@ -1,3 +1,17 @@
+#!/usr/bin/env python3
+"""
+Contains the dotfiles related functionality.
+
+This file can be run independently as a script.
+> ./dots.py
+
+It will compare the contents of the ./home directory in this repo
+and copy it to the $HOME directory of the current user.
+
+It will avoid overwriting newer content, optionally giving you the
+ability to copy the newer file into this repo.
+"""
+
 import difflib
 import filecmp
 import os
