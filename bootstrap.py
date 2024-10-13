@@ -1,5 +1,5 @@
+import os.path
 import subprocess
-from idlelib.macosx import setupApp
 from typing import List
 
 from yaml import safe_load
@@ -117,8 +117,15 @@ def download_repo(target: str, src: str):
     :param src: The git url (https) that contains the repo you want to clone
     :return:
     """
+    target_dir = os.path.expanduser(target)
+
+    # Check if it exists
+    if os.path.exists(target_dir):
+        print(f"{target_dir} already exists. Continuing.")
+        return
+
     result = subprocess.run(
-        ["git", "clone", src, target],
+        ["git", "clone", src, target_dir],
         capture_output=True,
         text=True,
     )
@@ -140,17 +147,17 @@ def bootstrap():
     if git_config:
         setup_git(git_config)
 
-    # groups = data["groups"]
-    # if groups:
-    #     install_groups(groups)
-    #
-    # packages = data["packages"]
-    # if packages:
-    #     install_packages(packages)
-    #
-    # repos = data["repos"]
-    # for repo in repos:
-    #     download_repo(repo["target"], repo["src"])
+    groups = data["groups"]
+    if groups:
+        install_groups(groups)
+
+    packages = data["packages"]
+    if packages:
+        install_packages(packages)
+
+    repos = data["repos"]
+    for repo in repos:
+        download_repo(repo["target"], repo["src"])
 
 
 if __name__ == "__main__":
