@@ -11,6 +11,7 @@ git:
 
 packages:
   - git
+  - firefox
   - neovim
   - river
   - sddm
@@ -31,6 +32,8 @@ packages:
   - gammastep
   - kubectl
   - tailscale
+  - foot
+  - ripgrep
 
 mise:
   - go
@@ -86,3 +89,21 @@ package_repos:
       enabled=1
       gpgcheck=1
       gpgkey=https://pkgs.k8s.io/core:/stable:/v1.31/rpm/repodata/repomd.xml.key
+
+rpm_from_github:
+  - owner: evilsocket
+    repo: opensnitch
+  - owner: opentofu
+    repo: opentofu
+  - owner: derailed
+    repo: k9s
+  - owner: wagoodman
+    repo: dive
+
+go_install:
+  - "golang.org/x/tools/gopls@latest"
+  - "go.uber.org/nilaway/cmd/nilaway@latest"
+  - "github.com/golangci/golangci-lint/cmd/golangci-lint@latest"
+  - "github.com/go-delve/delve/cmd/dlv@latest"
+
+npm_global: []

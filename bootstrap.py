@@ -24,7 +24,13 @@ from fonts import (
 from git import setup_git
 from mise import ensure_mise, mise_use
 from omz import ensure_omz
-from packages import install_packages, system_update, install_groups, install_dnf_repo
+from packages import (
+    install_packages,
+    system_update,
+    install_groups,
+    install_dnf_repo,
+    ensure_program_from_github,
+)
 from repos import download_repo
 
 
@@ -82,6 +88,10 @@ def bootstrap():
         install_fontsource_font(font)
 
     update_font_cache()
+
+    gh_packages = data["rpm_from_github"]
+    for package in gh_packages:
+        ensure_program_from_github(package["owner"], package["repo"])
 
     # Recursively go through all contents in the ./home directory and copy into ~
     repo_home = "./home"
