@@ -30,3 +30,4 @@ Add your desired dotfiles into the `./home` directory in the same structure as y
 - [ ] Install cursor theme
 - [ ] (maybe) programmatically setup gtk theme config for all relevant files
   This would conflict with the dotfiles, so need to think this through
+- [ ] Enable services (e.g. tailscale)
