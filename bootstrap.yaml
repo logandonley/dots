@@ -45,9 +45,21 @@ repos:
 
 
 fonts:
-  google:
+  fontsource:
     - Roboto
     - IBM Plex Sans
+    - IBM Plex Serif
+    - Fira Sans
+    - Alegreya Sans
+    - Alegreya Sans SC
+    - Inria Sans
+    - Inria Serif
+    - Inter
+    - Public Sans
+    - Syne
+    - Noticia Text
+    - Archivo
+    - Source Serif 4
 
   nerd:
     - Iosevka
