@@ -147,6 +147,11 @@ def get_rpm_asset_url(assets: List[dict], arch: str) -> str | None:
     for asset in assets:
         if asset["name"].endswith(f"{arch}.rpm"):
             return asset["browser_download_url"]
+        elif asset["name"].endswith(f"{platform.machine().lower()}.rpm"):
+            # TODO: Make this not suck
+            # I'm not happy with this. But I'm lazy atm.
+            # Perhaps I should take in a list/tuple of arch and loop over them
+            return asset["browser_download_url"]
         elif asset["name"].endswith(f"noarch.rpm"):
             noarch = asset["browser_download_url"]
 

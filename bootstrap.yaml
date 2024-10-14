@@ -43,6 +43,7 @@ mise:
   - lua
   - deno
   - bun
+  - lua-language-server # Strange this is in here, but it is the easiest way I've found to manage it
 
 repos:
   - target: "~/.config/nvim"
@@ -102,6 +103,8 @@ rpm_from_github:
     repo: k9s
   - owner: wagoodman
     repo: dive
+  - owner: Figma-Linux
+    repo: figma-linux
 
 go_install:
   - "golang.org/x/tools/gopls@latest"
@@ -113,3 +116,14 @@ npm_global:
   - yarn
   - typescript
   - prettier
+  # LSPs for nvim
+  - emmet-ls
+  - dockerfile-language-server-nodejs
+  - typescript-language-server
+  - "@astrojs/language-server"
+  - vscode-langservers-extracted
+  - yaml-language-server
+
+pip_global:
+  - ruff-lsp
+  - pyright
