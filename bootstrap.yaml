@@ -123,6 +123,7 @@ npm_global:
   - "@astrojs/language-server"
   - vscode-langservers-extracted
   - yaml-language-server
+  - svelte-language-server
 
 pip_global:
   - ruff-lsp

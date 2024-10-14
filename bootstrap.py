@@ -32,6 +32,7 @@ from packages import (
     ensure_program_from_github,
     install_npm_global_packages,
     install_go_package,
+    install_pip_packages,
 )
 from repos import download_repo
 
@@ -108,6 +109,10 @@ def bootstrap():
     go_packages = data["go_install"]
     for package_url in go_packages:
         install_go_package(package_url)
+
+    pip_packages = data["pip_global"]
+    if pip_packages:
+        install_pip_packages(pip_packages, user_scoped=True)
 
     # Recursively go through all contents in the ./home directory and copy into ~
     repo_home = "./home"

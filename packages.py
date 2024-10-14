@@ -192,10 +192,6 @@ def is_program_installed(program: str) -> bool:
     return bool(which(program))
 
 
-def download_binary_to_bin():
-    pass
-
-
 def get_system_architecture():
     """
     Returns the system architecture.
@@ -250,6 +246,29 @@ def install_go_package(url: str):
     :return:
     """
     cmd(["go", "install", url])
+
+
+def install_pip_packages(packages: List[str], user_scoped=False):
+    """
+    Batch install pip packages
+    :param packages:
+    :param user_scoped: (optional) bool whether to use --user flag
+    :return:
+    """
+    if user_scoped:
+        cmd(["pip", "install", "--user"] + packages)
+    else:
+        cmd(["pip", "install"] + packages)
+
+
+def install_cargo_package():
+    # TODO
+    pass
+
+
+def download_binary_to_bin():
+    # TODO
+    pass
 
 
 if __name__ == "__main__":
