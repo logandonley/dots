@@ -41,6 +41,8 @@ mise:
   - poetry
   - node
   - lua
+  - deno
+  - bun
 
 repos:
   - target: "~/.config/nvim"
