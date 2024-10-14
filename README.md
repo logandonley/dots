@@ -20,3 +20,13 @@ Add your desired dotfiles into the `./home` directory in the same structure as y
 ./dots.py
 ```
 
+## TODOs
+
+- [ ] Cargo install
+- [ ] Random tar.gz file install
+- [ ] Install sddm theme
+- [ ] Install gtk theme
+- [ ] Install gtk icon pack
+- [ ] Install cursor theme
+- [ ] (maybe) programmatically setup gtk theme config for all relevant files
+  This would conflict with the dotfiles, so need to think this through
