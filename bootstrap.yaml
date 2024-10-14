@@ -52,8 +52,12 @@ fonts:
   nerd:
     - Iosevka
     - Hack
-    - BlexMono
+    - IBMPlexMono
     - JetBrainsMono
     - ProggyClean
     - FiraMono
-    - BigBlueTerm
+    - BigBlueTerminal
+    - FantasqueSansMono
+    - iA-Writer
+    - EnvyCodeR
+    - ComicShannsMono

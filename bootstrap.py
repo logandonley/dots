@@ -15,6 +15,7 @@ import os.path
 from yaml import safe_load
 
 from dots import copy_dotfiles
+from fonts import get_latest_nerdfonts_release, install_nerd_font, update_font_cache
 from git import setup_git
 from mise import ensure_mise, mise_use
 from omz import ensure_omz
@@ -61,6 +62,12 @@ def bootstrap():
     languages = data["mise"]
     for language in languages:
         mise_use(language)
+
+    nerd_font_version = get_latest_nerdfonts_release() or "v3.2.1"
+    nerd_fonts = data["fonts"]["nerd"]
+    for font in nerd_fonts:
+        install_nerd_font(font, nerd_font_version)
+    update_font_cache()
 
     # Recursively go through all contents in the ./home directory and copy into ~
     repo_home = "./home"
