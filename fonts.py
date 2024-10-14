@@ -78,6 +78,11 @@ def update_font_cache():
 
 
 def install_fontsource_font(font: str):
+    """
+    Download a font from fontsource.org if it doesn't already exist on your machine.
+    :param font: Font name
+    :return:
+    """
     formatted_font = font.replace(" ", "")
     font_dir = os.path.join(FONTS_DIR, formatted_font)
 
@@ -88,6 +93,8 @@ def install_fontsource_font(font: str):
     font_details_url = (
         f"https://api.fontsource.org/v1/fonts?family={font.replace(' ', '%20')}"
     )
+    # Even though it their API is unauthenticated, I think their CDN is blocking
+    # requests without headers.
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
     }

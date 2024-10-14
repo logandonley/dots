@@ -29,6 +29,8 @@ packages:
   - tldr
   - figlet
   - gammastep
+  - kubectl
+  - tailscale
 
 mise:
   - go
@@ -73,3 +75,14 @@ fonts:
     - iA-Writer
     - EnvyCodeR
     - ComicShannsMono
+
+package_repos:
+  - url: https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+  - file: kubernetes.repo
+    content: |
+      [kubernetes]
+      name=Kubernetes
+      baseurl=https://pkgs.k8s.io/core:/stable:/v1.31/rpm/
+      enabled=1
+      gpgcheck=1
+      gpgkey=https://pkgs.k8s.io/core:/stable:/v1.31/rpm/repodata/repomd.xml.key

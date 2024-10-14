@@ -24,7 +24,7 @@ from fonts import (
 from git import setup_git
 from mise import ensure_mise, mise_use
 from omz import ensure_omz
-from packages import install_packages, system_update, install_groups
+from packages import install_packages, system_update, install_groups, install_dnf_repo
 from repos import download_repo
 
 
@@ -48,6 +48,10 @@ def bootstrap():
     git_config = data["git"]
     if git_config:
         setup_git(git_config)
+
+    dnf_repos = data["package_repos"]
+    for repo in dnf_repos:
+        install_dnf_repo(repo)
 
     groups = data["groups"]
     if groups:
