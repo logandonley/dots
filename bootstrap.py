@@ -30,6 +30,8 @@ from packages import (
     install_groups,
     install_dnf_repo,
     ensure_program_from_github,
+    install_npm_global_packages,
+    install_go_package,
 )
 from repos import download_repo
 
@@ -91,7 +93,21 @@ def bootstrap():
 
     gh_packages = data["rpm_from_github"]
     for package in gh_packages:
-        ensure_program_from_github(package["owner"], package["repo"])
+        if "name" in package:
+            name = package["name"]
+        else:
+            name = None
+        ensure_program_from_github(package["owner"], package["repo"], program_name=name)
+    # TODO: need to support the case where the package is .tar.gz rather than an rpm
+    # e.g. https://github.com/helmfile/helmfile/releases
+
+    npm_packages = data["npm_global"]
+    if npm_packages:
+        install_npm_global_packages(npm_packages)
+
+    go_packages = data["go_install"]
+    for package_url in go_packages:
+        install_go_package(package_url)
 
     # Recursively go through all contents in the ./home directory and copy into ~
     repo_home = "./home"

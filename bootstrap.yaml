@@ -48,7 +48,6 @@ repos:
   - target: "~/.config/qtile"
     src: "https://github.com/logandonley/qtile-config.git"
 
-
 fonts:
   fontsource:
     - Roboto
@@ -93,8 +92,10 @@ package_repos:
 rpm_from_github:
   - owner: evilsocket
     repo: opensnitch
+    name: opensnitch-ui
   - owner: opentofu
     repo: opentofu
+    name: tofu
   - owner: derailed
     repo: k9s
   - owner: wagoodman
@@ -106,4 +107,7 @@ go_install:
   - "github.com/golangci/golangci-lint/cmd/golangci-lint@latest"
   - "github.com/go-delve/delve/cmd/dlv@latest"
 
-npm_global: []
+npm_global:
+  - yarn
+  - typescript
+  - prettier

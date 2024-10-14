@@ -207,16 +207,18 @@ def get_system_architecture():
         return arch
 
 
-def ensure_program_from_github(owner: str, repo: str):
+def ensure_program_from_github(owner: str, repo: str, program_name=None):
     """
     Makes sure that a program from a github repo is installed.
 
     :param owner:
     :param repo:
+    :param program_name: (optional) If the repo name doesn't match the program name then define program_name
     :return:
     """
-    # TODO: Should probably support the case where the program name doesn't match the repo name
-    if is_program_installed(repo):
+    # If the program_name is defined, use that. Otherwise default to repo.
+    program = program_name or repo
+    if is_program_installed(program):
         return
 
     arch = get_system_architecture()
@@ -227,8 +229,22 @@ def ensure_program_from_github(owner: str, repo: str):
     print(f"{repo} installed.")
 
 
-def install_npm_global_package(package: str):
-    pass
+def install_npm_global_packages(packages: List[str]):
+    """
+    Bulk install global npm packages
+    :param packages:
+    :return:
+    """
+    cmd(["npm", "install", "-g"] + packages, f"Error installing {packages}")
+
+
+def install_go_package(url: str):
+    """
+    go install a url
+    :param url:
+    :return:
+    """
+    cmd(["go", "install", url])
 
 
 if __name__ == "__main__":
