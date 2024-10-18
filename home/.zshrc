@@ -10,3 +10,5 @@ eval "$(/home/logan/.local/bin/mise activate zsh)"
 export PATH=$PATH:"/home/logan/.local/share/JetBrains/Toolbox/scripts/"
 
 alias task="go-task"
+
+# . "$HOME/.cargo/env"

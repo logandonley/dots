@@ -20,6 +20,7 @@ packages:
   - wdisplays
   - zsh
   - mako
+  - waybar
   - obs-studio
   - redshift
   - ffmpeg-free
@@ -34,6 +35,11 @@ packages:
   - tailscale
   - foot
   - ripgrep
+  - awesome
+  - rofi
+  - rofimoji
+  - qtile
+  - variety
 
 mise:
   - go
@@ -128,3 +134,5 @@ npm_global:
 pip_global:
   - ruff-lsp
   - pyright
+  - ansible
+  - qtile-extras
